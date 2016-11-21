@@ -18,7 +18,7 @@ pid pid1;
 
 void PID_init(){
 
-  pid1.SetSpeed=1.5;
+  pid1.SetSpeed=2000;
   pid1.ActualSpeed=0.0;
   pid1.err=0.0;
   pid1.err_last=0.0;

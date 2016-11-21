@@ -72,13 +72,13 @@ void  main(void)
     
     pit_init_ms(PIT0,150); //初始化 PIT0，定时时间
     
-    enable_irq (PIT0_IRQn);
+    NVIC_EnableIRQ(PIT0_IRQn);
     
     //初始化舵机( >1800 往左 <1800往右 频率50-300)
    FTM_PWM_init(FTM0, FTM_CH0,185, 1800); 
     
     //初始化电机
-    FTM_PWM_init(FTM2, FTM_CH0,50000,0); 
+    FTM_PWM_init(FTM2, FTM_CH0,10000,0); 
   
 
 //    while(1)
@@ -184,36 +184,36 @@ void PIT0_IRQHandler(void)
 {
   
   
-  float actspeed;
+  int16 actspeed;
   actspeed = FTM_QUAD_get(FTM1); //获取 FTM 正交解码 的脉冲数(负数表示反方向)
   
+  sprintf(w,"%d",actspeed);
+  uart_putstr(UART3,w);  
   if(1)
   {
     
-    actspeed=(actspeed/500)/0.15*2*3.141*0.008;//M/S
+ //  actspeed=(actspeed/500)/0.15*2*3.141*0.008;//M/S
  
-    sprintf(w,"%f",actspeed);
-    uart_putstr(UART3,w);
-   if(s1<=300)
+
+   if(s1<=2500)
    {
      float q=PID_realize(actspeed);
      float err=geterr();
      if (err<0.035 && err>(-0.035))
        ;       
-     else if (err<0.06 && err>(-0.06))
+     else if (err<50 && err>(-50))
 //       s1=s1+q*8;
-          s1=s1+q*60;
-     else if(err<0.5 && err>(-0.5))
-       s1=s1+q*200;
+          s1=s1+q;
+     else if(err<200 && err>(-200))
+       s1=s1+q;
      else 
-       s1=s1+q*500;
-     int s2=s1;    
+       s1=s1+q*1.7;       
      //FTM_PWM_Duty(FTM2, FTM_CH0,200);
-     FTM_PWM_init(FTM2, FTM_CH0,50000,(int)s1); 
+     FTM_PWM_init(FTM2, FTM_CH0,10000,(int)s1); 
 
    } 
-   else if(s1>310)
-      FTM_PWM_init(FTM2, FTM_CH0,50000,0);
+   else if(s1>2600)
+      FTM_PWM_init(FTM2, FTM_CH0,10000,0);
     
     
 
