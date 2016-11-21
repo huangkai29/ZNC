@@ -208,8 +208,8 @@ void PIT0_IRQHandler(void)
        s1=s1+q;
      else 
        s1=s1+q*1.7;       
-     //FTM_PWM_Duty(FTM2, FTM_CH0,200);
-     FTM_PWM_init(FTM2, FTM_CH0,10000,(int)s1); 
+     FTM_PWM_Duty(FTM2, FTM_CH0,(int)s1);
+    // FTM_PWM_init(FTM2, FTM_CH0,10000,(int)s1); 
 
    } 
    else if(s1>2600)
