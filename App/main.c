@@ -72,10 +72,10 @@ void  main(void)
     
     pit_init_ms(PIT0,150); //初始化 PIT0，定时时间
     
-    NVIC_EnableIRQ(PIT0_IRQn);
+    NVIC_EnableIRQ(PIT0_IRQn);//使能PIT0中断
     
-    //初始化舵机( >1800 往左 <1800往右 频率50-300)
-   FTM_PWM_init(FTM0, FTM_CH0,185, 1800); 
+    //初始化舵机( >1800 往左 <180往右 频率50-300 极限值+ - 45)
+    FTM_PWM_init(FTM0, FTM_CH0,185, 180); 
     
     //初始化电机
     FTM_PWM_init(FTM2, FTM_CH0,10000,0); 
@@ -90,7 +90,7 @@ void  main(void)
         img_extract(img, imgbuff,CAMERA_SIZE);
 
         //发送图像到上位机
-        sendimg(img, CAMERA_W * CAMERA_H);                  //发送到上位机
+       sendimg(img, CAMERA_W * CAMERA_H);                  //发送到上位机
         
 
     }
@@ -187,8 +187,8 @@ void PIT0_IRQHandler(void)
   int16 actspeed;
   actspeed = FTM_QUAD_get(FTM1); //获取 FTM 正交解码 的脉冲数(负数表示反方向)
   
-  sprintf(w,"%d",actspeed);
-  uart_putstr(UART3,w);  
+  //sprintf(w,"%d",actspeed);
+  //uart_putstr(UART3,w);  
   if(1)
   {
     
