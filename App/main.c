@@ -81,19 +81,19 @@ void  main(void)
     FTM_PWM_init(FTM2, FTM_CH0,10000,0); 
   
 
-//    while(1)
-//    {
-//        //获取图像
-//        camera_get_img();                                   //摄像头获取图像
-//
-//        //解压图像
-//        img_extract(img, imgbuff,CAMERA_SIZE);
-//
-//        //发送图像到上位机
-//        sendimg(img, CAMERA_W * CAMERA_H);                  //发送到上位机
-//        
-//
-//    }
+    while(1)
+    {
+        //获取图像
+        camera_get_img();                                   //摄像头获取图像
+
+        //解压图像
+        img_extract(img, imgbuff,CAMERA_SIZE);
+
+        //发送图像到上位机
+        sendimg(img, CAMERA_W * CAMERA_H);                  //发送到上位机
+        
+
+    }
 }
 
 /*!

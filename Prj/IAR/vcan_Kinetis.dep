@@ -201,6 +201,7 @@
       <file>$PROJ_DIR$\DZ10_Debug\Obj\MK60_DWT.__cstat.et</file>
       <file>$PROJ_DIR$\DZ10_Debug\Obj\MK60_mcg.__cstat.et</file>
       <file>$PROJ_DIR$\DZ10_Debug\Obj\VCAN_NRF24L0.__cstat.et</file>
+      <file>$TOOLKIT_DIR$\src\lib\dlib\main.h</file>
     </outputs>
     <file>
       <name>$PROJ_DIR$\..\..\Chip\src\MK60_lptmr.c</name>
@@ -577,7 +578,7 @@
         </tool>
         <tool>
           <name>BICOMP</name>
-          <file> 112 10 86 65 110 116 76 74 137 64 113 117 72 90 93 2 77 27 105 59 40 66 69 56 131 78 71 122 148 21 135 28 3 24 6 83 92 47 52 53 87 125 46 81 32 61 130 115 107 100 132 49 120 111 57 127 73 94</file>
+          <file> 148 92 3 6 137 64 122 135 110 112 93 113 117 72 90 74 71 21 28 105 24 10 83 66 69 56 131 78 65 2 77 116 76 27 59 86 40 47 52 53 87 125 46 81 32 61 130 115 107 100 132 49 120 111 57 127 73 94</file>
         </tool>
       </inputs>
     </file>
