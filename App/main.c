@@ -11,19 +11,21 @@ void img_extract(uint8 *dst, uint8 *src, uint32 srclen);
 void PORTA_IRQHandler();
 void PORTD_IRQHandler();
 void DMA0_IRQHandler();
-void  FTM_PWM_init(FTMn_e, FTM_CHn_e, uint32 freq, uint32 duty);  //初始化FTM的PWM功能并设置频率、占空比。设置通道输出占空比。同一个FTM，各通道的PWM频率是一样的，共3个FTM
-void  FTM_PWM_Duty(FTMn_e, FTM_CHn_e,              uint32 duty);  //设置通道占空比,占空比为 （duty * 精度） % ，如果 FTM_PRECISON 定义为 1000 ，duty = 100 ，则占空比 100*0.1%=10%
-void  FTM_PWM_freq(FTMn_e,            uint32 freq);               //设置FTM的频率（改频率后，需要重新配置占空比）
-void  port_init(PTXn_e ptxn, uint32 cfg );
-void  port_init_NoALT(PTXn_e ptxn, uint32 cfg);
+void FTM_PWM_Duty(FTMn_e ftmn, FTM_CHn_e ch, uint32 duty);
+void FTM_PWM_init(FTMn_e, FTM_CHn_e, uint32 freq, uint32 duty);  //初始化FTM的PWM功能并设置频率、占空比。设置通道输出占空比。同一个FTM，各通道的PWM频率是一样的，共3个FTM
+void FTM_PWM_Duty(FTMn_e, FTM_CHn_e,              uint32 duty);  //设置通道占空比,占空比为 （duty * 精度） % ，如果 FTM_PRECISON 定义为 1000 ，duty = 100 ，则占空比 100*0.1%=10%
+void FTM_PWM_freq(FTMn_e,            uint32 freq);               //设置FTM的频率（改频率后，需要重新配置占空比）
+void port_init(PTXn_e ptxn, uint32 cfg );
+void port_init_NoALT(PTXn_e ptxn, uint32 cfg);
 void PIT0_IRQHandler(void);
 extern void FTM_QUAD_Init(FTMn_e ftmn);         //初始化FTM 的正交解码 功能
 extern int16 FTM_QUAD_get(FTMn_e ftmn);          //获取FTM 正交解码 的脉冲数(负数表示反方向)
 extern void FTM_QUAD_clean(FTMn_e ftmn);        //清 FTM 正交解码 的脉冲数
-void PID_init();
-float PID_realize(float actspeed);
-float geterr();
-void FTM_PWM_Duty(FTMn_e ftmn, FTM_CHn_e ch, uint32 duty);
+void PID_init();     //PID初始化
+float PID_realize(float actspeed); //PID返回偏差值
+float geterr(); //获取舵机控制量
+
+int servo_control(void);                
 
 /*
 舵机引脚：PTC1 FTM0
@@ -46,14 +48,12 @@ volatile  */
 
 
 
-
+int sdsd;
 
 void  main(void)
 {
   
 
-    led_init(LED0);
-    led_turn(LED0);
     
 
     //初始化摄像头
@@ -72,15 +72,17 @@ void  main(void)
     
     pit_init_ms(PIT0,150); //初始化 PIT0，定时时间
     
-    NVIC_EnableIRQ(PIT0_IRQn);//使能PIT0中断
+
+    
+   sdsd=servo_control();
     
     //初始化舵机( >1800 往左 <180往右 频率50-300 极限值+ - 45)
-    FTM_PWM_init(FTM0, FTM_CH0,185, 180); 
-    
+    FTM_PWM_init(FTM0, FTM_CH0,185, sdsd); 
+
     //初始化电机
     FTM_PWM_init(FTM2, FTM_CH0,10000,0); 
   
-
+    NVIC_EnableIRQ(PIT0_IRQn);//使能PIT0中断
     while(1)
     {
         //获取图像
