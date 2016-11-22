@@ -24,7 +24,7 @@ extern void FTM_QUAD_clean(FTMn_e ftmn);        //清 FTM 正交解码 的脉冲数
 void PID_init();     //PID初始化
 float PID_realize(float actspeed); //PID返回偏差值
 float geterr(); //获取舵机控制量
-
+void get_centerline(uint8 *img);    //  提取黑线
 int servo_control(void);                
 
 /*
@@ -48,7 +48,7 @@ volatile  */
 
 
 
-int sdsd;
+int asas;
 
 void  main(void)
 {
@@ -74,10 +74,10 @@ void  main(void)
     
 
     
-   sdsd=servo_control();
+
     
-    //初始化舵机( >1800 往左 <180往右 频率50-300 极限值+ - 45)
-    FTM_PWM_init(FTM0, FTM_CH0,185, sdsd); 
+    //初始化舵机( >1800 往左 <1800往右 频率50-300 极限值+ - 450)
+    FTM_PWM_init(FTM0, FTM_CH0,185, 1800); 
 
     //初始化电机
     FTM_PWM_init(FTM2, FTM_CH0,10000,0); 
@@ -89,8 +89,15 @@ void  main(void)
         camera_get_img();                                   //摄像头获取图像
 
         //解压图像
-        img_extract(img, imgbuff,CAMERA_SIZE);
+        img_extract(img, imgbuff,CAMERA_SIZE); 
 
+        //获取中线
+        get_centerline(img);
+        
+        asas=servo_control();
+        
+  //     FTM_PWM_init(FTM0, FTM_CH0,185, 180+asas);
+        
         //发送图像到上位机
        sendimg(img, CAMERA_W * CAMERA_H);                  //发送到上位机
         
@@ -130,7 +137,7 @@ void sendimg(uint8 *imgaddr, uint32 imgsize)
 void img_extract(uint8 *dst, uint8 *src, uint32 srclen)
 {
 
-    uint8 colour[2] = {253, 0}; //0 和 1 分别对应的颜色
+    uint8 colour[2] = {254, 0}; //0 和 1 分别对应的颜色
     //注：山外的摄像头 0 表示 白色，1表示 黑色
     uint8 tmpsrc=0;
 
