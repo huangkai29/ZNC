@@ -1,5 +1,8 @@
 #include "common.h"
 
+
+
+
 #define img_top 41 //图像上部 
 #define img_base 100 //图像下部 
 #define img_high img_base-img_top+1 //图像高度 
@@ -13,19 +16,21 @@
 #define N (i-1)*Img_Col+(j-1) //二维坐标转换为一维数组对应数据  
 #define Xi i-img_top+1 //实际行数转换到从0开始的行数 
  
+uint8 plotmid=1; //是否画中线  
+
 float KP=30;//舵机方向比例系数
 float KD=0.08; //5.0;//舵机方向微分系数
 uint16 Fit_Middleline[img_high+1];
 
 //修正数组
-int xz[60]={25,27,29,30,31,33,34,35,36,38,38,40,42,43,44,46,47,49,49,51,52,53,55,56,57,59,60,61,63,64,65,66,68,69,70,72,73,74,76,77,79,79,81,81,84,84,86,87,88,89,89,91,93,93,95,96,97,98,99,101};
+int xz[60]={27,29,30,30,32,32,34,36,37,38,40,41,42,43,44,46,48,49,50,52,53,54,56,56,58,60,61,63,63,65,66,67,69,71,71,73,75,76,77,78,80,81,82,83,84,85,87,87,89,91,91,93,93,95,95,97,98,99,100,101};
 
    int16 Left_Black[img_high+1];
    int16 Right_Black[img_high+1];
 int get_centerline(uint8 img[19200])    //  提取黑线
 {
    uint8 tenflag=0;
-
+   uint8 tenflag2=0;
    uint8 Middleline=80;  
    int16 i,j;
 
@@ -58,7 +63,7 @@ int get_centerline(uint8 img[19200])    //  提取黑线
     if(img[(i-1)*160+(80-1)]==0)
         return 1;
     if((Left_Black[Xi]==1 && Right_Black[Xi]==255) )
-      return 0;
+      tenflag2++;
     
     	
     else //不舍弃则补线 
@@ -72,7 +77,6 @@ int get_centerline(uint8 img[19200])    //  提取黑线
  
 
  }
- 
   /////////////////////////////图像有效,继续搜索 ////////////////////////////////////////
    for(i=img_base-3;i>=img_top;i--)  //边沿寻点 
    {   
@@ -149,86 +153,116 @@ int get_centerline(uint8 img[19200])    //  提取黑线
     		
  }
  //////////////////////////////////////////赛道左右边线数组处理以及画中线 ///////////////////////////////////////
-	uint8 n;
+ 
+ 	/////////////////十字路口丢失赛道///////////// 
+ 	uint8 n;
 	uint8 discon=0;
-	uint8 LeftZJ,RightZJ; //出十字的标志 
-	
-	Fit_Middleline[img_high]=(Right_Black[img_high]+Left_Black[img_high])/2; //最后一行中线 
-	
-	
-	for(n=img_high-1;n>=1;n--) 
-	{
-		/////////////十字路口 /////////////////
-	 	if(tenflag>=10) 
-	 	{
-	 		
-	 		
-	 		if(!(Left_Black[n]-Left_Black[n+1]>=0 && Left_Black[n]-Left_Black[n+1]<=2) && !LeftZJ) //检测到直角，标记为出十字 
-	 			LeftZJ=Left_Black[n+1]; 
-								
-	 		if (!(Right_Black[n]-Right_Black[n+1]<=0 && Right_Black[n]-Right_Black[n+1]>=-2) && !RightZJ)
-
-	 			RightZJ=Right_Black[n+1];
-
-			
-	 					
-	 		if(!LeftZJ && !RightZJ) //非十字区 
-				Fit_Middleline[n]=(Right_Black[n]+Left_Black[n])/2;
-			
-			else if(LeftZJ || RightZJ)	//进入十字区，用刚出十字的中线拟合 
-				Fit_Middleline[n]=Fit_Middleline[n+1];
-				
-			
-//			if(LeftZJ && RightZJ) //出十字路口 
-//				if((Left_Black[n]>LeftZJ) && (Right_Black[n]<RightZJ) )
-//				{
-//					Fit_Middleline[n]=(Right_Black[n]+Left_Black[n])/2;
-//					
-//				}
-//						
-				
-					
-			
-			
-			
-			
-					
-		}
-		/////////////弯道（已经补线）和直道 ///////////////////
-		else 
+	uint8 LeftZJ=0,RightZJ=0; //出十字的标志 
+ 	if(tenflag2>=2)
+ 	{
+ 		Fit_Middleline[1]=(Right_Black[1]+Left_Black[1])/2; //第一行中线
+ 		for(n=2;n<=img_high;n++) 
 		{
-			
-			int Midd=(Right_Black[n]+Left_Black[n])/2; //当前行的拟合中线  差值在宽度以内 
-			if(Midd-Fit_Middleline[n+1]<=10 && Midd-Fit_Middleline[n+1]>=-10 && Midd<=Img_Col && Midd>=0 )
-				Fit_Middleline[n]=Midd;	
-//			else if(Midd-Fit_Middleline[n+4]<=3 && Midd-Fit_Middleline[n+2]>=-3)		//与底下一行不连续，则搜索底下的底下一行	
-//				Fit_Middleline[n]=Midd;							
-//			else if(Midd-Fit_Middleline[n+5]<=4 && Midd-Fit_Middleline[n+3]>=-4)			
-//				Fit_Middleline[n]=Midd;							
-			else			
-				Fit_Middleline[n]=0;				
-			
-//			//赛道连续差值6以内，一旦不连续则终止中线拟合 
-//			if((Left_Black[n]-Left_Black[n+1]>=-6 && Left_Black[n]-Left_Black[n+1]<=6) && Right_Black[n]-Right_Black[n+1]<=6 && Right_Black[n]-Right_Black[n+1]>=-6 && discon==0)
-//	 		{
-//	 			Fit_Middleline[n]=(Right_Black[n]+Left_Black[n])/2;
-//	 			
-//			}
-//			else
-//			{
-//				Fit_Middleline[n]=0;
-//				discon=1;
-//			}
-//				
+			/////////////十字路口 /////////////////
+				
+		 		if(!(Left_Black[n]-Left_Black[n-1]<=3 && Left_Black[n]-Left_Black[n-1]>=-3) && LeftZJ==0) //检测到直角，标记为出十字 
+		 			LeftZJ=Left_Black[n-1]; 
+									
+		 		if (!(Right_Black[n]-Right_Black[n-1]>=-3 && Right_Black[n]-Right_Black[n-1]<=3) && RightZJ==0)
+	
+		 			RightZJ=Right_Black[n-1];
+	
+				
+		 					
+		 		if(!LeftZJ && !RightZJ) //非十字区 
+					Fit_Middleline[n]=(Right_Black[n]+Left_Black[n])/2;
+				
+				else if(LeftZJ || RightZJ)	//进入十字区，用刚出十字的中线拟合 
+					Fit_Middleline[n]=Fit_Middleline[n-1];
+					
+				if(Fit_Middleline[n]!=0 && plotmid==1)  //画中线 
+					img[((n+img_top-1)-1)*160+(Fit_Middleline[n]-1)]=0;	
+										
 		}
 		
-//	if(Fit_Middleline[n]!=0)  //画中线 
-//		img[((n+img_top-1)-1)*160+(Fit_Middleline[n]-1)]=0;	
+ 		
+	}
+ 	else
+ 	{
+		/////////////十字路口 /////////////////
+		
+		Fit_Middleline[img_high]=(Right_Black[img_high]+Left_Black[img_high])/2; //最后一行中线 
+		
+		for(n=img_high-1;n>=1;n--) 
+		{
+			
+		 	if(tenflag>=10) 
+		 	{
+		 		
+		 		
+		 		if(!(Left_Black[n]-Left_Black[n+1]>=0 && Left_Black[n]-Left_Black[n+1]<=2) && !LeftZJ) //检测到直角，标记为出十字 
+		 			LeftZJ=Left_Black[n+1]; 
+									
+		 		if (!(Right_Black[n]-Right_Black[n+1]<=0 && Right_Black[n]-Right_Black[n+1]>=-2) && !RightZJ)
+	
+		 			RightZJ=Right_Black[n+1];
+	
+				
+		 					
+		 		if(!LeftZJ && !RightZJ) //非十字区 
+					Fit_Middleline[n]=(Right_Black[n]+Left_Black[n])/2;
+				
+				else if(LeftZJ || RightZJ)	//进入十字区，用刚出十字的中线拟合 
+					Fit_Middleline[n]=Fit_Middleline[n+1];
+					
+				
+				if(LeftZJ && RightZJ) //出十字路口 
+					if((Left_Black[n]>LeftZJ) && (Right_Black[n]<RightZJ) )
+					{
+						int Midd=(Right_Black[n]+Left_Black[n])/2; //当前行的拟合中线  差值在宽度以内 
+						if(Midd-Fit_Middleline[n+1]<=10 && Midd-Fit_Middleline[n+1]>=-10 && Midd<=Img_Col && Midd>=0 )
+							Fit_Middleline[n]=Midd;		
+					}
+										
+			}
+			/////////////弯道（已经补线）和直道 ///////////////////
+			else 
+			{
+				
+				int Midd=(Right_Black[n]+Left_Black[n])/2; //当前行的拟合中线  差值在宽度以内 
+				if(Midd-Fit_Middleline[n+1]<=11 && Midd-Fit_Middleline[n+1]>=-11 && Midd<=Img_Col && Midd>=0 )
+					Fit_Middleline[n]=Midd;	
+	//			else if(Midd-Fit_Middleline[n+4]<=3 && Midd-Fit_Middleline[n+2]>=-3)		//与底下一行不连续，则搜索底下的底下一行	
+	//				Fit_Middleline[n]=Midd;							
+	//			else if(Midd-Fit_Middleline[n+5]<=4 && Midd-Fit_Middleline[n+3]>=-4)			
+	//				Fit_Middleline[n]=Midd;							
+				else			
+					Fit_Middleline[n]=0;				
+				
+	//			//赛道连续差值6以内，一旦不连续则终止中线拟合 
+	//			if((Left_Black[n]-Left_Black[n+1]>=-6 && Left_Black[n]-Left_Black[n+1]<=6) && Right_Black[n]-Right_Black[n+1]<=6 && Right_Black[n]-Right_Black[n+1]>=-6 && discon==0)
+	//	 		{
+	//	 			Fit_Middleline[n]=(Right_Black[n]+Left_Black[n])/2;
+	//	 			
+	//			}
+	//			else
+	//			{
+	//				Fit_Middleline[n]=0;
+	//				discon=1;
+	//			}
+	//				
+		}
+		
+	if(Fit_Middleline[n]!=0 && plotmid==1)  //画中线 
+		img[((n+img_top-1)-1)*160+(Fit_Middleline[n]-1)]=0;	
 				
 	}
+ 		
+	 }
+
 	
 //	for(n=img_high;n>=1;n--) 
-//		printf("%d:%d %d\n",n,Left_Black[n],Right_Black[n]);
+//		printf("%d:%d,%d\n",n,Right_Black[n],Left_Black[n]);
 	
 	
 	  return 8;
