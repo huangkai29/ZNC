@@ -8,7 +8,7 @@
 
 "-p" 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\CONFIG\debugger\Freescale\MK60DN512Zxxx10.ddf" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\arm\CONFIG\debugger\Freescale\MK60DN512Zxxx10.ddf" 
 
 "--drv_verify_download" 
 
@@ -20,7 +20,7 @@
 
 "--jet_probe=cmsisdap" 
 
-"--jet_script_file=C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\config\debugger\Freescale\KinetisK.ProbeScript" 
+"--jet_script_file=C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\arm\config\debugger\Freescale\KinetisK.ProbeScript" 
 
 "--jet_standard_reset=5,0,0" 
 

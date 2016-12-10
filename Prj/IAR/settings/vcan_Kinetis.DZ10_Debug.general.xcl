@@ -1,12 +1,14 @@
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\bin\armproc.dll" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\arm\bin\armproc.dll" 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\bin\armJET.dll" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\arm\bin\armJET.dll" 
 
-"C:\Users\HK\Desktop\DMA_鹰眼摄像头OV7725串口显示\Prj\IAR\DZ10_Debug\Exe\vcan_Kinetis.out" 
+"C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\DZ10_Debug\Exe\vcan_Kinetis.out" 
 
---plugin "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\bin\armbat.dll" 
+--plugin "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\arm\bin\armbat.dll" 
 
---device_macro "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\config\debugger\Freescale\Kxx.dmac" 
+--device_macro "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\arm\config\debugger\Freescale\Kxx.dmac" 
+
+--flash_loader "C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\arm\config\flashloader\Freescale\FlashK60Dxxx128K.board" 
 
 
 

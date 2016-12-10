@@ -25,7 +25,7 @@ if not "%1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\common\bin\cspybat" -f "C:\Users\HK\Desktop\DMA_鹰眼摄像头OV7725串口显示\Prj\IAR\settings\vcan_Kinetis.DZ10_Debug.general.xcl" --backend -f "C:\Users\HK\Desktop\DMA_鹰眼摄像头OV7725串口显示\Prj\IAR\settings\vcan_Kinetis.DZ10_Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\common\bin\cspybat" -f "C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\settings\vcan_Kinetis.DZ10_Debug.general.xcl" --backend -f "C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\settings\vcan_Kinetis.DZ10_Debug.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\common\bin\cspybat" -f "C:\Users\HK\Desktop\DMA_鹰眼摄像头OV7725串口显示\Prj\IAR\settings\vcan_Kinetis.DZ10_Debug.general.xcl" "--debug_file=%1" --backend -f "C:\Users\HK\Desktop\DMA_鹰眼摄像头OV7725串口显示\Prj\IAR\settings\vcan_Kinetis.DZ10_Debug.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\common\bin\cspybat" -f "C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\settings\vcan_Kinetis.DZ10_Debug.general.xcl" "--debug_file=%1" --backend -f "C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\settings\vcan_Kinetis.DZ10_Debug.driver.xcl" 
 
 @echo off 
 :end

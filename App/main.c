@@ -24,7 +24,7 @@ extern void FTM_QUAD_clean(FTMn_e ftmn);        //清 FTM 正交解码 的脉冲数
 void PID_init();     //PID初始化
 float PID_realize(float actspeed); //PID返回偏差值
 float geterr(); //获取舵机控制量
-void get_centerline(uint8 *img);    //  提取黑线
+int get_centerline(uint8 *img);    //  提取黑线
 int servo_control(void);                
 
 /*
@@ -76,13 +76,13 @@ void  main(void)
     
 
     
-    //初始化舵机( >1800 往左 <1800往右 频率50-300 极限值+ - 450)
-    FTM_PWM_init(FTM0, FTM_CH0,185, 1800); 
+    //初始化舵机( )
+    FTM_PWM_init(FTM0, FTM_CH0,185, 3400); 
 
     //初始化电机
-    FTM_PWM_init(FTM2, FTM_CH0,10000,0); 
+    FTM_PWM_init(FTM2, FTM_CH0,10000,1000); 
   
-    NVIC_EnableIRQ(PIT0_IRQn);//使能PIT0中断
+ //   NVIC_EnableIRQ(PIT0_IRQn);//使能PIT0中断
     while(1)
     {
         //获取图像
@@ -92,14 +92,29 @@ void  main(void)
         img_extract(img, imgbuff,CAMERA_SIZE); 
 
         //获取中线
-        get_centerline(img);
+        int ps=get_centerline(img);
         
-        asas=servo_control();
-        
-  //     FTM_PWM_init(FTM0, FTM_CH0,185, 180+asas);
-        
+       asas=servo_control();
+       if(ps==0)  
+        FTM_PWM_init(FTM0, FTM_CH0,185, 3400);
+       else if(ps==1)
+         ;
+       else
+       {
+         if(asas>=3800 || asas<=3000)
+         {
+           
+  //        FTM_PWM_init(FTM2, FTM_CH0,10000,900); 
+         FTM_PWM_init(FTM0, FTM_CH0,185, asas);
+         }
+         else
+         {
+     //     FTM_PWM_init(FTM2, FTM_CH0,10000,1200); 
+           FTM_PWM_init(FTM0, FTM_CH0,185, asas);
+         }
+       }
         //发送图像到上位机
-       sendimg(img, CAMERA_W * CAMERA_H);                  //发送到上位机
+ sendimg(img, CAMERA_W * CAMERA_H);                  //发送到上位机
         
 
     }

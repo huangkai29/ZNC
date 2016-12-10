@@ -1,15 +1,3 @@
-[DebugChecksum]
-Checksum=1593728209
-[Jet]
-JetConnSerialNo=46892
-JetConnFoundProbes=
-DisableInterrupts=0
-MultiCoreRunAll=0
-OnlineReset=Software
-PrevWtdReset=Custom
-[PlDriver]
-FirstRun=0
-MemConfigValue=C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\CONFIG\debugger\Freescale\MK60DN512Zxxx10.ddf
 [Stack]
 FillEnabled=0
 OverflowWarningsEnabled=1
@@ -20,6 +8,20 @@ UseTrigger=1
 TriggerName=main
 LimitSize=0
 ByteLimit=50
+[PlDriver]
+MemConfigValue=C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\arm\CONFIG\debugger\Freescale\MK60DN512Zxxx10.ddf
+FirstRun=0
+[Jet]
+DisableInterrupts=0
+MultiCoreRunAll=0
+JetConnSerialNo=46892
+JetConnFoundProbes=
+OnlineReset=Software
+PrevWtdReset=Custom
+[ArmDriver]
+EnableCache=1
+[DebugChecksum]
+Checksum=2068760115
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -30,8 +32,8 @@ MixedMode=1
 [SWOManager]
 SamplingDivider=8192
 OverrideClock=0
-CpuClock=66048
-SwoClock=512
+CpuClock=10
+SwoClock=13451
 DataLogMode=0
 ItmPortsEnabled=63
 ItmTermIOPorts=1
@@ -39,8 +41,6 @@ ItmLogPorts=0
 ItmLogFile=$PROJ_DIR$\ITM.log
 PowerForcePC=1
 PowerConnectPC=1
-[ArmDriver]
-EnableCache=1
 [Trace1]
 Enabled=0
 ShowSource=1
@@ -67,6 +67,10 @@ EventEXC=0
 EventFOLD=0
 EventLSU=0
 EventSLEEP=0
+[Disassemble mode]
+mode=0
+[Breakpoints2]
+Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -74,10 +78,6 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
-[Disassemble mode]
-mode=0
-[Breakpoints2]
-Count=0
 [Aliases]
 Count=0
 SuppressDialog=0
