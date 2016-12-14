@@ -1,46 +1,46 @@
-"C:\Users\A\Desktop\智能车程序\智能车\Chip\src\MK60_DWT.c"
+"C:\Users\HK\Desktop\ZNC\Chip\src\MK60_DWT.c"
 -std=c99
 -ferror-limit=100
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\..\..\App
+C:\Users\HK\Desktop\ZNC\Prj\IAR\..\..\App
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\..\..\App\Inc
+C:\Users\HK\Desktop\ZNC\Prj\IAR\..\..\App\Inc
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\..\..\Board\Inc
+C:\Users\HK\Desktop\ZNC\Prj\IAR\..\..\Board\Inc
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\..\..\Chip\inc
+C:\Users\HK\Desktop\ZNC\Prj\IAR\..\..\Chip\inc
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\..\..\Chip\inc\IAR
+C:\Users\HK\Desktop\ZNC\Prj\IAR\..\..\Chip\inc\IAR
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\..\..\Chip\inc\kinetis
+C:\Users\HK\Desktop\ZNC\Prj\IAR\..\..\Chip\inc\kinetis
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\..\..\Lib\CMSIS\Inc
+C:\Users\HK\Desktop\ZNC\Prj\IAR\..\..\Lib\CMSIS\Inc
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\..\..\Lib\FatFs
+C:\Users\HK\Desktop\ZNC\Prj\IAR\..\..\Lib\FatFs
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Prj\IAR\..\..\Lib\USB
+C:\Users\HK\Desktop\ZNC\Prj\IAR\..\..\Lib\USB
 -I
-C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\arm\inc
+C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\inc
 -I
-C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\arm\inc\c
+C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\inc\c
 -I
-C:\Users\A\Desktop\智能车程序\智能车\App
+C:\Users\HK\Desktop\ZNC\App
 -I
-C:\Users\A\Desktop\智能车程序\智能车\App\Inc
+C:\Users\HK\Desktop\ZNC\App\Inc
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Board\Inc
+C:\Users\HK\Desktop\ZNC\Board\Inc
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Chip\inc
+C:\Users\HK\Desktop\ZNC\Chip\inc
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Chip\inc\IAR
+C:\Users\HK\Desktop\ZNC\Chip\inc\IAR
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Chip\inc\kinetis
+C:\Users\HK\Desktop\ZNC\Chip\inc\kinetis
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Lib\CMSIS\Inc
+C:\Users\HK\Desktop\ZNC\Lib\CMSIS\Inc
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Lib\FatFs
+C:\Users\HK\Desktop\ZNC\Lib\FatFs
 -I
-C:\Users\A\Desktop\智能车程序\智能车\Lib\USB
+C:\Users\HK\Desktop\ZNC\Lib\USB
 -DDEBUG=1
 -DARM_MATH_CM4=1
 -DMK60DZ10=1
@@ -273,8 +273,8 @@ C:\Users\A\Desktop\智能车程序\智能车\Lib\USB
 -D__EDG_SYSV=0
 -D__EDG_ANSIC=1
 -D__EDG_CPP11_IL_EXTENSIONS_SUPPORTED=1
--D_DLIB_CONFIG_FILE_HEADER_NAME="C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2_2\arm\INC\c\DLib_Config_Full.h"
--D_DLIB_CONFIG_FILE_STRING="C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.2_2\\arm\\INC\\c\\DLib_Config_Full.h"
+-D_DLIB_CONFIG_FILE_HEADER_NAME="C:\Program Files (x86)\IAR Systems\Embedded Workbench 7.2\arm\INC\c\DLib_Config_Full.h"
+-D_DLIB_CONFIG_FILE_STRING="C:\\Program Files (x86)\\IAR Systems\\Embedded Workbench 7.2\\arm\\INC\\c\\DLib_Config_Full.h"
 -D__VERSION__="IAR ANSI C/C++ Compiler V7.40.3.8902/W32 for ARM"
 -D_VA_DEFINED=
 -D__CODE_MEMORY_LIST1__()=__CODE_MEM_HELPER1__(__code, 0 )

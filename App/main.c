@@ -80,7 +80,7 @@ void  main(void)
     FTM_PWM_init(FTM0, FTM_CH0,185, 3400); 
 
     //初始化电机
-    FTM_PWM_init(FTM2, FTM_CH0,10000,1000); 
+    FTM_PWM_init(FTM2, FTM_CH0,10000,1100); 
   
  //   NVIC_EnableIRQ(PIT0_IRQn);//使能PIT0中断
     while(1)
@@ -104,17 +104,17 @@ void  main(void)
          if(asas>=3800 || asas<=3000)
          {
            
-  //        FTM_PWM_init(FTM2, FTM_CH0,10000,900); 
-         FTM_PWM_init(FTM0, FTM_CH0,185, asas);
+         FTM_PWM_Duty(FTM2, FTM_CH0,800); 
+         FTM_PWM_Duty(FTM0, FTM_CH0,asas);
          }
          else
          {
-     //     FTM_PWM_init(FTM2, FTM_CH0,10000,1200); 
-           FTM_PWM_init(FTM0, FTM_CH0,185, asas);
+          FTM_PWM_Duty(FTM2, FTM_CH0,1100); 
+           FTM_PWM_Duty(FTM0, FTM_CH0, asas);
          }
        }
         //发送图像到上位机
- sendimg(img, CAMERA_W * CAMERA_H);                  //发送到上位机
+ //sendimg(img, CAMERA_W * CAMERA_H);                  //发送到上位机
         
 
     }

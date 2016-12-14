@@ -16,9 +16,9 @@
 #define N (i-1)*Img_Col+(j-1) //二维坐标转换为一维数组对应数据  
 #define Xi i-img_top+1 //实际行数转换到从0开始的行数 
  
-uint8 plotmid=1; //是否画中线  
+uint8 plotmid=0; //是否画中线  
 
-float KP=30;//舵机方向比例系数
+float KP=24;//舵机方向比例系数
 float KD=0.08; //5.0;//舵机方向微分系数
 uint16 Fit_Middleline[img_high+1];
 
@@ -231,7 +231,7 @@ int get_centerline(uint8 img[19200])    //  提取黑线
 			{
 				
 				int Midd=(Right_Black[n]+Left_Black[n])/2; //当前行的拟合中线  差值在宽度以内 
-				if(Midd-Fit_Middleline[n+1]<=11 && Midd-Fit_Middleline[n+1]>=-11 && Midd<=Img_Col && Midd>=0 )
+				if(Midd-Fit_Middleline[n+1]<=10 && Midd-Fit_Middleline[n+1]>=-10 && Midd<=Img_Col && Midd>=0 )
 					Fit_Middleline[n]=Midd;	
 	//			else if(Midd-Fit_Middleline[n+4]<=3 && Midd-Fit_Middleline[n+2]>=-3)		//与底下一行不连续，则搜索底下的底下一行	
 	//				Fit_Middleline[n]=Midd;							
@@ -293,9 +293,9 @@ int servo_control(void)
    		
 	}
    } 
-   
-   Error=-(int)(SteerSum/Nozero);
 
+   Error=-(int)(SteerSum/Nozero);
+ //  KP=(Error*Error*0.0625)+1;
   Servo_PWM=KP*Error+KD*(Error-LastError);
   Servo_PWM=Servo_PWM + servo_pwm_middle;
   LastError=Error;
