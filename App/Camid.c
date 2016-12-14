@@ -22,8 +22,8 @@ float KP=30;//舵机方向比例系数
 float KD=0.08; //5.0;//舵机方向微分系数
 uint16 Fit_Middleline[img_high+1];
 
-//修正数组
-int xz[60]={27,29,30,30,32,32,34,36,37,38,40,41,42,43,44,46,48,49,50,52,53,54,56,56,58,60,61,63,63,65,66,67,69,71,71,73,75,76,77,78,80,81,82,83,84,85,87,87,89,91,91,93,93,95,95,97,98,99,100,101};
+//修正数组(+22)
+int xz[60]={49,51,52,52,54,54,56,58,59,60,62,63,64,65,66,68,70,71,72,74,75,76,78,78,80,82,83,85,85,87,88,89,91,93,93,95,97,98,99,100,102,103,104,105,106,107,109,109,111,113,113,115,115,117,117,119,120,121,122,123};
 
    int16 Left_Black[img_high+1];
    int16 Right_Black[img_high+1];
@@ -63,7 +63,8 @@ int get_centerline(uint8 img[19200])    //  提取黑线
     if(img[(i-1)*160+(80-1)]==0)
         return 1;
     if((Left_Black[Xi]==1 && Right_Black[Xi]==255) )
-      tenflag2++;
+ //     tenflag2++;
+      return 0;
     
     	
     else //不舍弃则补线 
@@ -216,13 +217,13 @@ int get_centerline(uint8 img[19200])    //  提取黑线
 					Fit_Middleline[n]=Fit_Middleline[n+1];
 					
 				
-				if(LeftZJ && RightZJ) //出十字路口 
-					if((Left_Black[n]>LeftZJ) && (Right_Black[n]<RightZJ) )
-					{
-						int Midd=(Right_Black[n]+Left_Black[n])/2; //当前行的拟合中线  差值在宽度以内 
-						if(Midd-Fit_Middleline[n+1]<=10 && Midd-Fit_Middleline[n+1]>=-10 && Midd<=Img_Col && Midd>=0 )
-							Fit_Middleline[n]=Midd;		
-					}
+//				if(LeftZJ && RightZJ) //出十字路口 
+//					if((Left_Black[n]>LeftZJ) && (Right_Black[n]<RightZJ) )
+//					{
+//						int Midd=(Right_Black[n]+Left_Black[n])/2; //当前行的拟合中线  差值在宽度以内 
+//						if(Midd-Fit_Middleline[n+1]<=10 && Midd-Fit_Middleline[n+1]>=-10 && Midd<=Img_Col && Midd>=0 )
+//							Fit_Middleline[n]=Midd;		
+//					}
 										
 			}
 			/////////////弯道（已经补线）和直道 ///////////////////
