@@ -92,27 +92,28 @@ void  main(void)
         img_extract(img, imgbuff,CAMERA_SIZE); 
 
         //获取中线
-        int ps=get_centerline(img);
-        
+       uint8 ps=get_centerline(img);
+       uint16 oldctr=3400;
        asas=servo_control();
-       if(ps==0)  
-        FTM_PWM_init(FTM0, FTM_CH0,185, 3400);
+       if(ps==0)   //丢失则使用上一场控制量
+        FTM_PWM_init(FTM0, FTM_CH0,185, oldctr);
        else if(ps==1)
          ;
        else
        {
-         if(asas>=3800 || asas<=3000)
+         if(asas>=3800 || asas<=3000)   //偏差角太大则减速
          {
            
-         FTM_PWM_Duty(FTM2, FTM_CH0,800); 
-         FTM_PWM_Duty(FTM0, FTM_CH0,asas);
+           FTM_PWM_Duty(FTM2, FTM_CH0,800); 
+           FTM_PWM_Duty(FTM0, FTM_CH0,asas);
          }
          else
          {
-          FTM_PWM_Duty(FTM2, FTM_CH0,1100); 
+           FTM_PWM_Duty(FTM2, FTM_CH0,1100); 
            FTM_PWM_Duty(FTM0, FTM_CH0, asas);
          }
        }
+       oldctr=asas;
         //发送图像到上位机
  //sendimg(img, CAMERA_W * CAMERA_H);                  //发送到上位机
         
