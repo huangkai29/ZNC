@@ -1,6 +1,7 @@
 #include "common.h"
 #include "include.h"
 #include "math.h"
+#define sendtopc 0
 
 uint8 imgbuff[CAMERA_SIZE];                             //定义存储接收图像的数组
 uint8 img[CAMERA_W*CAMERA_H];                           //由于鹰眼摄像头是一字节8个像素，因而需要解压为 1字节1个像素，方便处理
@@ -99,6 +100,10 @@ void  main(void)
         FTM_PWM_init(FTM0, FTM_CH0,185, oldctr);
        else if(ps==1)
          ;
+       else if(ps==-3)
+         FTM_PWM_Duty(FTM0, FTM_CH0,2600); //右弯打死
+       else if(ps==3)
+         FTM_PWM_Duty(FTM0, FTM_CH0,3400); //左弯打死
        else
        {
          if(asas>=3800 || asas<=3000)   //偏差角太大则减速
@@ -115,7 +120,9 @@ void  main(void)
        }
        oldctr=asas;
         //发送图像到上位机
- //sendimg(img, CAMERA_W * CAMERA_H);                  //发送到上位机
+      #if sendtopc==1
+      sendimg(img, CAMERA_W * CAMERA_H);                  //发送到上位机
+      #endif
         
 
     }
