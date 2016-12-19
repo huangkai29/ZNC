@@ -21,7 +21,7 @@ PrevWtdReset=Custom
 [ArmDriver]
 EnableCache=1
 [DebugChecksum]
-Checksum=1022656600
+Checksum=-1801416165
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -32,8 +32,8 @@ MixedMode=1
 [SWOManager]
 SamplingDivider=8192
 OverrideClock=0
-CpuClock=241925632
-SwoClock=1879058737
+CpuClock=2097253
+SwoClock=6357100
 DataLogMode=0
 ItmPortsEnabled=63
 ItmTermIOPorts=1
@@ -67,6 +67,10 @@ EventEXC=0
 EventFOLD=0
 EventLSU=0
 EventSLEEP=0
+[Disassemble mode]
+mode=0
+[Breakpoints2]
+Count=0
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -74,10 +78,6 @@ Category=_ 0
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
-[Disassemble mode]
-mode=0
-[Breakpoints2]
-Count=0
 [Aliases]
 Count=0
 SuppressDialog=0

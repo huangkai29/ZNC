@@ -3,8 +3,8 @@
 
 
 
-#define plotmid 1 //是否画中线
-#define P 20 //修正数组偏差值 
+#define plotmid 0 //是否画中线
+#define P 16 //修正数组偏差值 
 #define img_top 41 //图像上部 
 #define img_base 100 //图像下部 
 #define img_high img_base-img_top+1 //图像高度 
@@ -22,7 +22,7 @@
  
   
 
-float KP=30;//舵机方向比例系数
+float KP=28;//舵机方向比例系数
 float KD=0.08; //5.0;//舵机方向微分系数
 uint16 Fit_Middleline[img_high+1];
 
@@ -149,14 +149,7 @@ int get_centerline(uint8 img[19200])    //  提取黑线
 	    if(Right_Black[Xi]==255) //左丢线 
       		Rlost++;
 	}
-	//急弯打死 
-	if(i>=img_base-10)
-	{
-		if(Llost==0 && Rlost>=5 ) //右丢线，在入弯打死 
-			return -3;
-		if(Llost>=5 && Rlost==0 ) //左丢线，在入弯打死  
-			return 3;
-	}		    
+	
     //十字路口标记 
     uint8 Firmid=(Right_Black[img_base]-Left_Black[img_base])/2;
     if(Left_Black[Xi]==1 && Right_Black[Xi]==255  && i>=img_top+20)
@@ -224,9 +217,17 @@ int get_centerline(uint8 img[19200])    //  提取黑线
 			/////////////弯道（已经补线）和直道 ///////////////////
 			else 
 			{
-				
+                              
+				//急弯打死 
+                                if(i>=img_base-10)
+                                {
+                                if(Llost==0 && Rlost>=7 ) //右丢线，在入弯打死 
+                                    return 4;
+                                  if(Llost>=7 && Rlost==0 ) //左丢线，在入弯打死  
+                                    return 3;
+                                }		
 				int Midd=(Right_Black[n]+Left_Black[n])/2; //当前行的拟合中线  差值在宽度以内 
-				if(Midd-Fit_Middleline[n+1]<=11 && Midd-Fit_Middleline[n+1]>=-11 && Midd<=Img_Col && Midd>=0 )
+				if(Midd-Fit_Middleline[n+1]<=6 && Midd-Fit_Middleline[n+1]>=-6 && Midd<=Img_Col && Midd>=0 )
 					Fit_Middleline[n]=Midd;							
 				else			
 					Fit_Middleline[n]=0;				

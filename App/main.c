@@ -81,9 +81,10 @@ void  main(void)
     FTM_PWM_init(FTM0, FTM_CH0,185, 3400); 
 
     //初始化电机
-    FTM_PWM_init(FTM2, FTM_CH0,10000,1100); 
+    FTM_PWM_init(FTM2, FTM_CH0,10000,1300); 
   
  //   NVIC_EnableIRQ(PIT0_IRQn);//使能PIT0中断
+     uint16 oldctr=3400;
     while(1)
     {
         //获取图像
@@ -94,22 +95,32 @@ void  main(void)
 
         //获取中线
        uint8 ps=get_centerline(img);
-       uint16 oldctr=3400;
+      
        asas=servo_control();
-       if(ps==0)   //丢失则使用上一场控制量
-        FTM_PWM_init(FTM0, FTM_CH0,185, oldctr);
+       if(ps==0)   //舍弃则使用上一场控制量
+        FTM_PWM_Duty(FTM0, FTM_CH0,3400);
        else if(ps==1)
-         ;
-       else if(ps==-3)
+        FTM_PWM_Duty(FTM0, FTM_CH0,oldctr);
+       
+       else if(ps==4)
+       {
          FTM_PWM_Duty(FTM0, FTM_CH0,2600); //右弯打死
+    //     FTM_PWM_Duty(FTM2, FTM_CH0,800); //打死减速
+       }
+         
        else if(ps==3)
-         FTM_PWM_Duty(FTM0, FTM_CH0,3400); //左弯打死
+       {
+          FTM_PWM_Duty(FTM0, FTM_CH0,4200); //左弯打死
+    //      FTM_PWM_Duty(FTM2, FTM_CH0,800); //打死减速
+       }
+        
        else
        {
+         
          if(asas>=3800 || asas<=3000)   //偏差角太大则减速
          {
            
-           FTM_PWM_Duty(FTM2, FTM_CH0,800); 
+          FTM_PWM_Duty(FTM2, FTM_CH0,800); 
            FTM_PWM_Duty(FTM0, FTM_CH0,asas);
          }
          else
