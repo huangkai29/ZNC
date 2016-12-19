@@ -2,7 +2,6 @@
 
 
 
-
 #define plotmid 0 //是否画中线
 #define P 16 //修正数组偏差值 
 #define img_top 41 //图像上部 
@@ -67,7 +66,7 @@ int get_centerline(uint8 img[19200])    //  提取黑线
 	  
 	  	Right_Black[Xi]=255;	  		    
     }
-    if(Right_Black[Xi]==255)
+    if(Right_Black[Xi]==255)  //右丢线 
     	Rlost++;
     //最近三行有全黑行则舍弃 
     if(img[(i-1)*160+(80-1)]==0)
@@ -117,7 +116,7 @@ int get_centerline(uint8 img[19200])    //  提取黑线
 	      else
 	      	Left_Black[Xi]=1;	      		  
 	    }
-	    if(Left_Black[Xi]==1) //左丢线 
+	    if(Left_Black[Xi]==1 && i>=img_base-10) //左丢线 
       		Llost++;
 	}
 	          
@@ -146,7 +145,7 @@ int get_centerline(uint8 img[19200])    //  提取黑线
 		  else
 		  	Right_Black[Xi]=255;		  		    
 	    }	
-	    if(Right_Black[Xi]==255) //左丢线 
+	    if(Right_Black[Xi]==255 && i>=img_base-10) //左丢线 
       		Rlost++;
 	}
 	
@@ -219,13 +218,12 @@ int get_centerline(uint8 img[19200])    //  提取黑线
 			{
                               
 				//急弯打死 
-                                if(i>=img_base-10)
-                                {
-                                if(Llost==0 && Rlost>=7 ) //右丢线，在入弯打死 
-                                    return 4;
-                                  if(Llost>=7 && Rlost==0 ) //左丢线，在入弯打死  
-                                    return 3;
-                                }		
+                                
+                if(Llost==0 && Rlost>=7 ) //右丢线，在入弯打死 
+                    return 4;
+                if(Llost>=7 && Rlost==0 ) //左丢线，在入弯打死  
+                    return 3;
+                           		
 				int Midd=(Right_Black[n]+Left_Black[n])/2; //当前行的拟合中线  差值在宽度以内 
 				if(Midd-Fit_Middleline[n+1]<=6 && Midd-Fit_Middleline[n+1]>=-6 && Midd<=Img_Col && Midd>=0 )
 					Fit_Middleline[n]=Midd;							
@@ -295,3 +293,5 @@ int servo_control(void)
   return Servo_PWM;
 
 }
+
+
